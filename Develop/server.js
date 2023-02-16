@@ -7,6 +7,7 @@ const app = express();
 app.use('/api', api);
 app.use(express.json());
 app.use(express.urlencoded({ extend: true }));
+app.use('/api/notes', api);
 
 app.use(express.static('public'));
 
@@ -23,7 +24,7 @@ app.get('/notes', (req, res) => {
 });
 
 // GET Route for json
-app.get('/api/notes', api);
+
 
 // Get Route for individual note
 app.get('/api/note/:note_id', (req, res) => {

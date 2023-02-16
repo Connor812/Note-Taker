@@ -3,8 +3,6 @@ const { readFromFile, readAndAppend, witeToFile } = require('../helpers/fsUtils'
 const uuid = require('../helpers/uuid');
 const express = require('express');
 
-notes.use(express.json());
-notes.use(express.urlencoded({ extend: true }));
 
 notes.get('/', (req, res) => 
 readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
