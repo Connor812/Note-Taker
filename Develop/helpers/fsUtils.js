@@ -10,9 +10,9 @@ const readFromFile = util.promisify(fs.readFile);
  *  @returns {void} Nothing
  */
 const writeToFile = (destination, content) =>
-  fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
-    err ? console.error(err) : console.info(`\nData written to ${destination}`)
-  );
+    fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
+        err ? console.error(err) : console.info(`\nData written to ${destination}`)
+    );
 /**
  *  Function to read data from a given a file and append some content
  *  @param {object} content The content you want to append to the file.
@@ -20,15 +20,37 @@ const writeToFile = (destination, content) =>
  *  @returns {void} Nothing
  */
 const readAndAppend = (content, file) => {
-  fs.readFile(file, 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-    } else {
-      const parsedData = JSON.parse(data);
-      parsedData.push(content);
-      writeToFile(file, parsedData);
-    }
-  });
+    fs.readFile(file, 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            const parsedData = JSON.parse(data);
+            parsedData.push(content);
+            writeToFile(file, parsedData);
+        }
+    });
 };
 
-module.exports = { readFromFile, writeToFile, readAndAppend };
+const readAndDelete = (id) => {
+    console.log(id)
+    fs.readFile('./db/db.json', 'utf-8', (err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            // console.log('hello')
+            const IDdata = JSON.parse(data)
+            // console.log(IDdata)
+            for (let i = 0; i < IDdata.length; i++) {
+                let index = IDdata[i]
+                console.log(index.note_id);
+                if (index.note_id === id) {
+                    IDdata.splice(i, 1)
+                    console.log(IDdata);
+                    writeToFile('./db/db.json', IDdata);
+                }
+            }
+        }
+    })
+}
+
+module.exports = { readFromFile, writeToFile, readAndAppend, readAndDelete };

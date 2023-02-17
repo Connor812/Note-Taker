@@ -1,15 +1,14 @@
 const notes = require('express').Router();
-const { readFromFile, readAndAppend, witeToFile } = require('../helpers/fsUtils');
+const { readFromFile, readAndAppend, readAndDelete } = require('../helpers/fsUtils');
 const uuid = require('../helpers/uuid');
-const express = require('express');
+let parsedData;
 
-
-notes.get('/', (req, res) => 
+notes.get('/', (req, res) => {
 readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
-);
+});
 
 notes.post('/', (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     const { title, text } = (req.body);
     
     if (title && text) {
@@ -31,6 +30,25 @@ notes.post('/', (req, res) => {
     }
 });
 
+notes.delete('/:noteId', (req, res) => {
+    
+    const noteId = req.params.noteId;
+    console.log(noteId)
 
+    readFromFile('./db/db.json')
+    .then((data) => JSON.parse(data))
+    .then((json) => {
+        for (var i = 0; i < json.length; i++) {
+            if(noteId == json[i].note_id) {
+                readAndDelete(noteId);
+                res.send(`Seccessfully deleted ${noteId}`);
+                return;
+            } if (i == json.length - 1) {
+                res.status(404).send('Note ID not found.')
+                console.log("Could not find ID");
+            }
+        }
+    })
+})
 
 module.exports = notes;
