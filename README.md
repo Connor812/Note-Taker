@@ -15,6 +15,7 @@ This is a note taker appliction that uses express to send, save, and delete info
 ## Where-to-Find🔌
 ---
 GitHub Repo: [Connor812-Note_taker](https://github.com/Connor812/Note-Taker.git)
+---
 Heroku Deployed Link: [Heroku Note Taker](https://connor812-note-taker.herokuapp.com/)
 
 ## Usage🔋
